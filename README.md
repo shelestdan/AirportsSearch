@@ -1,17 +1,22 @@
-# A simple text classifier for a chatbot
+# README
 
 ## Description of the project
+This project is a console application for searching airports by a specific property. The data for the program is taken from the file `airports.csv`, which contains a table of airports with properties in CSV format.
 
-This project is a Java console application that implements a simple text classifier for a chatbot. The application receives a CSV file with a list of possible reports and a text request from the user. Then it searches for the most appropriate lines from the file by description and outputs their GUID to the user in the response.
+## Non-functional requirements
+1. You cannot reread all lines of the file with each search. Including reading only a specific column for each row.
+2. You cannot create new files or edit the current one. Including using a DBMS.
+3. You cannot store the entire file in memory. Not only as an array of bytes, but also in a structure that somehow contains all the data from the file.
+4. The program requires no more than 7 MB of memory to work correctly. All `java –jar` launches must be executed with the jvm flag `-Xmx7m'.
+5. The search speed should be as high as possible, taking into account the requirements above.
+6. The search complexity is less than O(n), where n is the number of lines in the file.
+7. The principles of OOP and SOLID must be respected.
+8. Erroneous and marginal situations must be handled correctly.
+9. You cannot use ready-made libraries for parsing CSV format.
 
-## Using a stemmer
+## Deviations from the requirements
+During the development of the application, it was found that fully correct implementation of all requirements is a significant challenge, especially given the limitations on memory usage. In particular, it was difficult to implement a search with a complexity less than O(n) without using a full file read and storing the entire file in memory.
 
-To improve the accuracy of the match search, a stemmer from the library `opennlp.tools.stemmer.snowball' was used.SnowballStemmer`. Stemmer brings words to their base, which allows you to take into account different cases and forms of words when searching for matches.
+Instead, it was decided to use full file reading and linear search. This solution made it possible to achieve high speed and accuracy of search for small and medium files. However, this solution is not suitable for processing very large files due to memory limitations.
 
-## Difficulty assessment
-
-The complexity of the algorithm is determined by two main factors: the number of reports in the CSV file and the length of the user's request. In the worst case, when each word in the query matches the description of the report, the complexity of the algorithm is O(n*m), where n is the number of reports and m is the number of words in the query. However, in the average case, when there are fewer matches, the complexity will be much lower.
-
-## Questions and solutions
-
-During the implementation of the project, the question arose about how to take into account the different cases and forms of words when searching for matches. To solve this problem, a stemmer was used, which brings the words to their base. This solution does not contradict the problem statement and allows you to improve the accuracy of the match search. Added handling of encoding-related exceptions.
+Possible ways to improve performance and memory efficiency could be using an index to speed up the search or streaming a file. However, as an intern, I did not have enough skills and abilities to implement these approaches.
